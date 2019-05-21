@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Job-Finder</string>
+
+
+    <string name="search">Search</string>
+    <string name="search_user">Search user</string>
+    <string name="user_avatar">User avatar</string>
+    <string name="enter_search_query">Enter search query</string>
+    <string name="no_results">No results</string>
+    <string name="an_error_occurred">An error occurred</string>
+    <string name="title_activity_job_details">JobDetailsActivity</string>
+
+
+</resources>
