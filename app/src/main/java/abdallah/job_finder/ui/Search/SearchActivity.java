@@ -1,11 +1,13 @@
 package abdallah.job_finder.ui.Search;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.common.api.Status;
@@ -77,6 +79,10 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
             @Override
             public boolean onClose() {
 
+                hideKeyboard(SearchActivity.this);
+                query = null;
+                location = null;
+                searchPresenter.getData(query,location);
                 return false;
             }
         });
@@ -85,7 +91,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 query = s;
-
+                hideKeyboard(SearchActivity.this);
+                searchPresenter.getData(query,location);
 
 
                 return true;
@@ -108,6 +115,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
                 Log.i(TAG, "Place: " + place.getName());
                 location = place.getName().toString();
                 //setQuery(query, location);
+
 
             }
 
@@ -133,12 +141,14 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
 
 
 
-        searchPresenter.getData();
+        searchPresenter.getData(query, location);
     }
 
     @Override
     public void startLoading() {
+
         loadingIndicator.setVisibility(View.VISIBLE);
+        noResultsContainer.setVisibility(View.GONE);
     }
 
     @Override
@@ -160,7 +170,18 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
 
     @Override
     public void onErrorResponse() {
-        //   noResultsContainer.setVisibility(View.VISIBLE);
+           noResultsContainer.setVisibility(View.VISIBLE);
 
     }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 }

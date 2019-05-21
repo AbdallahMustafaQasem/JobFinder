@@ -1,6 +1,7 @@
 package abdallah.job_finder.ui.Search;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -34,53 +35,66 @@ public class SearchPresenter {
 
     }
 
-    public void getData() {
+    public void getData( final String jobName, final String location) {
         results.clear();
         searchView.startLoading();
-        getGitHubData();
+        getGitHubData(jobName, location);
     }
 
-    private void getGitHubData() {
+    private void getGitHubData(String jobName, String location) {
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GithubService.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .build();
         GithubService githubService = retrofit.create(GithubService.class);
-        githubService.getData().enqueue(new Callback<List<GithubResponse>>() {
+        githubService.getData(jobName, location).enqueue(new Callback<List<GithubResponse>>() {
             @Override
             public void onResponse(Call<List<GithubResponse>> call, Response<List<GithubResponse>> response) {
 
                 convertGitHubResponse(response.body());
-                getGovData();
+                getGovData(jobName);
+                Log.e( "  response git hub" ,  " response  "+ response);
             }
 
             @Override
             public void onFailure(Call<List<GithubResponse>> call, Throwable t) {
-
-                getGovData();
+                Log.e( "  response git hub" ,  " Throwable  "+ t.getMessage());
+                getGovData(jobName);
 
             }
         });
     }
 
-    private void getGovData() {
+    private void getGovData(String jobName) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SearchGovService.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .build();
         SearchGovService searchGovService = retrofit.create(SearchGovService.class);
-        searchGovService.getData().enqueue(new Callback<List<SearchGovResponse>>() {
+        searchGovService.getData(jobName).enqueue(new Callback<List<SearchGovResponse>>() {
             @Override
             public void onResponse(Call<List<SearchGovResponse>> call, Response<List<SearchGovResponse>> response) {
                 convertGovResponse(response.body());
-                searchView.onSuccessResponse(results);
+                returnResult();
+
             }
 
             @Override
             public void onFailure(Call<List<SearchGovResponse>> call, Throwable t) {
-                searchView.onSuccessResponse(results);
+              returnResult();
             }
         });
+    }
+
+    private void returnResult() {
+
+        if (results.size()>0) {
+            searchView.onSuccessResponse(results);
+        }else {
+            searchView.stopLoading();
+            searchView.onErrorResponse();
+        }
     }
 
 

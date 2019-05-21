@@ -133,6 +133,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
             android:text="TextView"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvJob" />
