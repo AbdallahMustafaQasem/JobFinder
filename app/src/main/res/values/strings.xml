@@ -9,6 +9,7 @@
     <string name="no_results">No results</string>
     <string name="an_error_occurred">An error occurred</string>
     <string name="title_activity_job_details">JobDetailsActivity</string>
+    <string name="PlacesAPI">AIzaSyA4iBfOIDQ0l9LYUsPgo26lLmEHSzZPfaw</string>
 
 
 </resources>

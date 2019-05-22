@@ -1,7 +1,6 @@
 package abdallah.job_finder.ui.Search;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -20,12 +19,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
+
+// This Presenter is responsible for fetching and arranging information
+
 public class SearchPresenter {
 
     private final SearchView searchView;
     private Context context;
-
-
     private List<General> results = new ArrayList<>();
 
 
@@ -35,7 +36,7 @@ public class SearchPresenter {
 
     }
 
-    public void getData( final String jobName, final String location) {
+    public void getData(final String jobName, final String location) {
         results.clear();
         searchView.startLoading();
         getGitHubData(jobName, location);
@@ -54,14 +55,13 @@ public class SearchPresenter {
 
                 convertGitHubResponse(response.body());
                 getGovData(jobName);
-                Log.e( "  response git hub" ,  " response  "+ response);
+
             }
 
             @Override
             public void onFailure(Call<List<GithubResponse>> call, Throwable t) {
-                Log.e( "  response git hub" ,  " Throwable  "+ t.getMessage());
-                getGovData(jobName);
 
+                getGovData(jobName);
             }
         });
     }
@@ -82,16 +82,16 @@ public class SearchPresenter {
 
             @Override
             public void onFailure(Call<List<SearchGovResponse>> call, Throwable t) {
-              returnResult();
+                returnResult();
             }
         });
     }
 
     private void returnResult() {
 
-        if (results.size()>0) {
+        if (results.size() > 0) {
             searchView.onSuccessResponse(results);
-        }else {
+        } else {
             searchView.stopLoading();
             searchView.onErrorResponse();
         }

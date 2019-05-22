@@ -3,6 +3,7 @@ package abdallah.job_finder.data.githup.model;
 import com.google.gson.annotations.SerializedName;
 
 
+
 public class GithubResponse {
 
 

@@ -13,6 +13,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
+
+// This screen is responsible for viewing job information
+
 public class JobDetailsActivity extends AppCompatActivity {
 
 

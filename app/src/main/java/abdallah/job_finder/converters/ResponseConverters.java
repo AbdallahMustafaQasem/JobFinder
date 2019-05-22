@@ -7,6 +7,8 @@ import abdallah.job_finder.data.githup.model.GithubResponse;
 import abdallah.job_finder.data.govservice.model.SearchGovResponse;
 
 
+// This class responsible for standardization data model .
+
 public class ResponseConverters {
 
 

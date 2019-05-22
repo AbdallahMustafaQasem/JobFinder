@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.jobwebview.JobDetailsActivity"></activity>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA4iBfOIDQ0l9LYUsPgo26lLmEHSzZPfaw"/>
     </application>
 
 </manifest>
