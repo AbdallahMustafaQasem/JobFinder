@@ -9,12 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import java.text.ParseException;
 import java.util.List;
+
 import abdallah.job_finder.R;
 import abdallah.job_finder.data.General;
 import abdallah.job_finder.ui.jobwebview.JobDetailsActivity;
+import abdallah.job_finder.utils.Helper;
 
 import static abdallah.job_finder.ui.jobwebview.JobDetailsActivity.KEY_LINK;
 import static abdallah.job_finder.ui.jobwebview.JobDetailsActivity.KEY_NAME;
@@ -46,12 +51,25 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
         else
             holder.imgCompany.setImageDrawable(context.getResources().getDrawable(R.drawable.img_job));
 
-        if (result != null &&result.getCompanyName() != null)
-            holder.tvCompanyName.setText(result.getCompanyName()+"");
-        holder.tvJob.setText(result.getJobTitle()+"");
-        holder.tvLocation.setText(result.getLocation()+"");
-        holder.tvPostDate.setText(result.getPostDate()+"");
-        holder.tvProvider.setText(result.getProvider()+"");
+        if (result != null && result.getCompanyName() != null)
+            holder.tvCompanyName.setText(result.getCompanyName() + "");
+        holder.tvJob.setText(result.getJobTitle() + "");
+        holder.tvLocation.setText(result.getLocation() + "");
+
+        holder.tvProvider.setText(result.getProvider() + "");
+
+
+        try {
+            if (result.getProvider().equals("GitHub")) {
+                holder.tvPostDate.setText(Helper.convertGitToNewFormat(result.getPostDate()));
+            }else {
+                holder.tvPostDate.setText(Helper.convertGovToNewFormat(result.getPostDate()));
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            holder.tvPostDate.setText(result.getPostDate() + "");
+        }
 
 
         holder.itemView.setOnClickListener(v -> {
@@ -87,4 +105,6 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.ViewHolder
             tvProvider = view.findViewById(R.id.tvProvider);
         }
     }
+
+
 }
